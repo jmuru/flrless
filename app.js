@@ -8,6 +8,7 @@ var request = require('request');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+
 var keys = require("./keys");
 
 var app = express();
@@ -29,18 +30,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
-app.get('/api', function(req, res) {
-    request.post("https://anilist.co/api/auth/access_token?grant_type="+keys.grant_type+"&client_id="+keys.client_id+"&client_secret="+keys.client_secret,
-      function (err, response, body) {
-        body = JSON.parse(body);
-        request('https://anilist.co/api/anime/20?access_token='+body.access_token+"&token_type="+body.token_type, function(error, response, body) {
-          if (!error && response.statusCode == 200) {
 
-          }
-          res.send(body);
+app.get('/api', function(req, res) {
+    request.post("https://anilist.co/api/auth/access_token?grant_type=" + keys.grant_type + "&client_id=" + keys.client_id + "&client_secret=" + keys.client_secret,
+        function(err, response, body) {
+            body = JSON.parse(body);
+            request('https://anilist.co/api/anime/20?access_token=' + body.access_token + "&token_type=" + body.token_type, function(error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    console.log(JSON.parse(body));
+                }
+                res.send('working');
+            });
         });
-    });
 });
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
