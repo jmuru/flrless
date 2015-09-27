@@ -34,15 +34,26 @@ app.use('/users', users);
 app.get('/api', function(req, res) {
     request.post("https://anilist.co/api/auth/access_token?grant_type=" + keys.grant_type + "&client_id=" + keys.client_id + "&client_secret=" + keys.client_secret,
         function(err, response, body) {
-            body = JSON.parse(body);
+            body = JSON.parse(body); // getting authorization credentials
             request('https://anilist.co/api/anime/20?access_token=' + body.access_token + "&token_type=" + body.token_type, function(error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    console.log(JSON.parse(body));
+                if (!error && response.statusCode == 200) { // 
+                    var data = JSON.parse(body) // making actual request to api
+                    console.log(data);
                 }
-                res.send('working');
+                res.json(body);
             });
         });
 });
+
+app.get('/test', function(req, res) {
+    request('http://www.google.com', function(error, response, body) {
+        if(!error && response.statusCode == 200){
+            console.log(body);
+        }
+        res.send(body);
+    });
+});
+
 
 
 
