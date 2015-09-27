@@ -38,7 +38,7 @@ app.get('/api', function(req, res) {
             request('https://anilist.co/api/anime/20?access_token=' + body.access_token + "&token_type=" + body.token_type, function(error, response, body) {
                 if (!error && response.statusCode == 200) { // 
                     var data = JSON.parse(body) // making actual request to api
-                    console.log(data);
+                    
                 }
                 res.json(body);
             });

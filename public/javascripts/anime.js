@@ -3,9 +3,11 @@
 
 function _ajax(type, url, cb) {
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onload = function(res) {
-    	var data = JSON.parse(res.target.response);
-        cb(res, data); 
+    xmlhttp.onload = function(res) { // xmlHttp 2
+    	if(this.status == 200){ // xmlHttp 2
+    		var data = JSON.parse(res.target.response); // xmhHttp2
+        	cb(res, data); 
+        }
     };
     xmlhttp.open(type, url);
     xmlhttp.send();
